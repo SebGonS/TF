@@ -35,12 +35,12 @@ class Gui(QFrame):
         sidebar.addWidget(self.brandC,alignment=Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignRight)
 
 
-        sim_area.addSpacing(self.agent.map.width)
+        # sim_area.addSpacing(self.agent.map.width)
         main.addLayout(sim_area)
         main.addLayout(sidebar)
 
 
-        self.setGeometry(0, 0, 900, 900)  # (x, y, width, height)
+        self.resize(agent.map.width,agent.map.height)  # (x, y, width, height)
         self.setLayout(main)
 
     def get_floor_color(self, dirtiness): 
@@ -79,6 +79,8 @@ class Gui(QFrame):
             painter.fillRect(cleaning_bot.x*cleaning_bot.size, cleaning_bot.y*cleaning_bot.size, cleaning_bot.size, cleaning_bot.size, cleaning_bot.color)
         self.update_progress(self.agent.map.progress)
 
+    # def set_size(self,w,h):
+    #     self.main.resize(w,h)
    
 
         

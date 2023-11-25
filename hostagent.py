@@ -91,7 +91,6 @@ if __name__ == '__main__':
     x.start()
     app = QApplication([])
     gui = Gui(host_agent)
-    
     gui.show()
     app.exec()
     gui.exit_button.clicked.connect(exit_program(x))
