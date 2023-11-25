@@ -4,3 +4,5 @@ class Global:
     width=40
     height=40
     area=width*height
+
+

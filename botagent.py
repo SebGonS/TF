@@ -12,7 +12,7 @@ class BotAgent(Agent):
         self.color = QColor(self.random_c)
         self.size = Global.pixel_size
         self.speed = 4-self.random_c*3/0xffffff
-        self.power = 3*self.random_c//0xffffff
+        self.power = 3*self.random_c//0xffffff+1
 
         self.direction = random.choice([(1, 0),(1,1),(-1,-1),(1,-1),(-1,1), (-1, 0), (0, 1), (0, -1)])
         self.cleaning = 0
@@ -38,11 +38,6 @@ class BotAgent(Agent):
         #         self.status = 3
         #     else:
         #         self.status = 4
-    def spriteDir(self):
-        if self.status==1 or self.status==-1: return 2
-        if self.status==2: return 1
-        if self.status==3: return 3
-        if self.status==4: return 0
     def move(self):
         if self.cleaning:
             return

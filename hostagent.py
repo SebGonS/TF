@@ -25,6 +25,15 @@ class MyTimedBehaviour(TimedBehaviour):
                 cleaning_bot.cleaning=1
                 # print("cleaning: ",self.agent.map.map[cleaning_bot.x][cleaning_bot.y],"\n")
                 cleaned=min(self.agent.map.map[cleaning_bot.x][cleaning_bot.y], cleaning_bot.power)
+                if(cleaning_bot.power==3):
+                    self.agent.a_progress+=cleaned
+                    # print("a progress: ", self.agent.a_progress)
+                if(cleaning_bot.power==2):
+                    self.agent.b_progress+=cleaned
+                    # print("b progress: ", self.agent.b_progress)
+                if(cleaning_bot.power==1):
+                    self.agent.c_progress+=cleaned
+                    # print("c progress: ", self.agent.c_progress)
                 self.agent.map.map[cleaning_bot.x][cleaning_bot.y]-=cleaned
                 # print("cleaned: ",cleaning_bot.power )
                 self.agent.map.dirtiness-=cleaned
@@ -43,17 +52,21 @@ class YourTimedBehaviour(TimedBehaviour):
     def on_time(self):
         super(YourTimedBehaviour, self).on_time()
         # print("dirtiness: ", self.agent.map.dirtiness)
-        prog=round((1-self.agent.map.dirtiness/self.agent.map.initial_dirtiness)*100,2)
-        self.agent.map.progress=prog
-        print("clean %: ", prog," %")
+        progress=round((1-self.agent.map.dirtiness/self.agent.map.initial_dirtiness)*100,2)
+        self.agent.map.progress=progress
+        print("clean %: ", progress," %")
 
 class HostAgent(Agent):
+    count_a=count_b=count_c=0
+    a_progress=b_progress=c_progress=0
+
+
     gui= None
     num_cleaning_botes = 50
     cleaning_bot_list = []
     map= CleaningArea()
     enabled = False
-
+    
     def __init__(self, aid):
         super(HostAgent, 
               self).__init__(aid=aid, debug=False)
@@ -61,8 +74,12 @@ class HostAgent(Agent):
         Global.x_center = 0
 
         for _ in range(self.num_cleaning_botes):
-            self.cleaning_bot_list.append(BotAgent())
-            # TODO name it and launch it as an agent of chaos
+            a=BotAgent()
+            self.cleaning_bot_list.append(a)
+            # print(a.power)
+            if(a.power==3): self.count_a+=1
+            if(a.power==2): self.count_b+=1
+            if(a.power==1): self.count_c+=1
 
         mytimed = MyTimedBehaviour(self, .2)
         yourtimed = YourTimedBehaviour(self, 2)
@@ -88,10 +105,23 @@ if __name__ == '__main__':
     stop_event = threading.Event()
 
     x = threading.Thread(target=agentsexec)
-    x.start()
     app = QApplication([])
     gui = Gui(host_agent)
-    gui.show()
+    choice = input("Correr Con interfaz? (y/n): ")
+    if choice.lower() == "yes":
+        # Run headless, perform the main code logic without GUI
+        print("Corriendo Modo headless")
+        # Your main code logic for headless mode goes here
+    else:
+        # Run with GUI
+        print("Corriendo con Iterfaz Grafica")
+        gui.show()
+    # gui.set_bot_counts()
+    x.start()
+    
+    # Check for headless mode (user input or command-line argument)
+   
+    # gui.show()
     app.exec()
     gui.exit_button.clicked.connect(exit_program(x))
     x.join()
