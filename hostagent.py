@@ -109,9 +109,8 @@ if __name__ == '__main__':
     gui = Gui(host_agent)
     choice = input("Correr Con interfaz? (y/n): ")
     if choice.lower() == "yes":
-        # Run headless, perform the main code logic without GUI
+        
         print("Corriendo Modo headless")
-        # Your main code logic for headless mode goes here
     else:
         # Run with GUI
         print("Corriendo con Iterfaz Grafica")
@@ -119,12 +118,10 @@ if __name__ == '__main__':
     # gui.set_bot_counts()
     x.start()
     
-    # Check for headless mode (user input or command-line argument)
-   
     # gui.show()
     app.exec()
     gui.exit_button.clicked.connect(exit_program(x))
     x.join()
    
 #run string
-#python D:\Documentos\Universidad\2023-2\Topicos\cs_topics-main\week12pade\TA3\hostagent.py 8000
+#python D:\Documentos\Universidad\2023-2\Topicos\cs_topics-main\week12pade\TA3\hostagent.py 60000
